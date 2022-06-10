@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ComposeActivity">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:counterEnabled="true"
+        app:counterMaxLength="280">
+
     <EditText
         android:id="@+id/etCompose"
         android:layout_width="match_parent"
@@ -20,6 +26,7 @@
         android:hint="What's on your mind?"
         android:inputType="textMultiLine"
         android:minLines="5" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnTweet"

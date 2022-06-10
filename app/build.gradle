@@ -51,6 +51,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     // Room for simple persistence with an ORM
     def room_version = "2.4.0"
     implementation "androidx.room:room-runtime:$room_version"
