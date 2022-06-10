@@ -10,6 +10,5 @@ import com.codepath.apps.restclienttemplate.models.SampleModelDao;
 public abstract class MyDatabase extends RoomDatabase {
     public abstract SampleModelDao sampleModelDao();
 
-    // Database name to be used
     public static final String NAME = "MyDataBase";
 }

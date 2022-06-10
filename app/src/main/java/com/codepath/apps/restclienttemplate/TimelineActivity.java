@@ -37,6 +37,24 @@ public class TimelineActivity extends AppCompatActivity {
     TweetsAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
 
+    private EndlessRecyclerViewScrollListener scrollListener;
+
+    MenuItem miActionProgressItem;
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        miActionProgressItem.setVisible(false);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,12 +62,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient(this);
 
-        // find the recycler view
-        rvTweets = findViewById(R.id.rvTweets);
-        // init the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
-        // recycler view setup: layout manager and the adapter
+
+        rvTweets = findViewById(R.id.rvTweets);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
 
@@ -75,31 +91,57 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        RecyclerView rvItems = (RecyclerView) findViewById(R.id.rvTweets);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvItems.setLayoutManager(linearLayoutManager);
+
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Headers headers, JSON json) {
+                        JSONArray jsonArray = json.jsonArray;
+                        try {
+                            List<Tweet> tweets =  Tweet.fromJsonArray(jsonArray);
+                            adapter.addAll(tweets);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                        Toast.makeText(TimelineActivity.this, "Could not load more data", Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        };
+
+        rvItems.addOnScrollListener(scrollListener);
     }
 
     public void fetchTimelineAsync(int page) {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                tweets.clear();
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(json.jsonArray));
+                    adapter.clear();
+                    adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                swipeContainer.setRefreshing(false);
             }
 
             @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                // Log.d("DEBUG", "Fetch timeline error: " + e.toString());
-            }
+            public void onFailure(int statusCode, Headers headers, String response, Throwable e) {}
         });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // inflate the menu; this adds items to the action bar if it is present
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -107,9 +149,6 @@ public class TimelineActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.compose) {
-            // compose icon has been selected
-            //Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
-            // navigate to the compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
             return true;
@@ -132,35 +171,30 @@ public class TimelineActivity extends AppCompatActivity {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                //Log.i(TAG, "onSuccess!");
-                Log.i(TAG, "onSuccess! " + json.toString());
-
                 JSONArray jsonArray = json.jsonArray;
 
                 try {
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
-                    Log.e(TAG, "Json exception", e);
+                    e.printStackTrace();
                 }
             }
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                //Log.e(TAG, "onFailure!", throwable);
-                Log.e(TAG, "onFailure! " + response, throwable);
+                throwable.printStackTrace();
             }
         });
     }
 
     void onLogoutButton() {
-        // forget who's logged in
         TwitterApplication.getRestClient(this).clearAccessToken();
 
-        // navigate backwards to Login screen
         Intent i = new Intent(this, LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // this makes sure the Back button won't work
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // same as above
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 }
