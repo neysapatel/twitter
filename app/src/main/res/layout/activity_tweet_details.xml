@@ -7,6 +7,43 @@
     tools:context=".TweetDetailsActivity">
 
     <ImageView
+        android:id="@+id/replyButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_reply_foreground"
+        tools:layout_editor_absoluteX="367dp" />
+
+    <ImageView
+        android:id="@+id/retweetButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="4dp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_retweet_foreground" />
+
+    <ImageView
+        android:id="@+id/likeButton"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_like_foreground"
+        tools:layout_editor_absoluteX="44dp" />
+
+    <ImageView
         android:id="@+id/ivProfileImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -41,6 +78,8 @@
         android:layout_toEndOf="@+id/ivProfileImage"
         android:maxLines="5"
         android:text="tweet body"
+        android:autoLink="all"
+        android:linksClickable="true"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/tvScreenName" />
 

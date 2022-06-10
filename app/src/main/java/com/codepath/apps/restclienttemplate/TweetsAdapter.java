@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
@@ -25,6 +27,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
+
+import okhttp3.Headers;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
     Context context;
@@ -70,6 +74,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvScreenName;
         TextView ttime;
         ImageView tImage;
+        ImageView likeButton;
+        ImageView replyButton;
+        ImageView retweetButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +86,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             ttime = itemView.findViewById(R.id.time);
             tImage = itemView.findViewById(R.id.tImage);
+            likeButton = itemView.findViewById(R.id.likeButton);
+            replyButton = itemView.findViewById(R.id.replyButton);
+            retweetButton = itemView.findViewById(R.id.retweetButton);
         }
 
         public void bind(Tweet tweet) {
@@ -102,6 +112,34 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                     Intent i = new Intent(context, TweetDetailsActivity.class);
                     i.putExtra("tweet", Parcels.wrap(tweet));
                     context.startActivity(i);
+                }
+            });
+
+            TwitterClient tc = new TwitterClient(context);
+
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tc.like(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {}
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {}
+                    });
+                }
+            });
+
+            retweetButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tc.retweet(tweet.id, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {}
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {}
+                    });
                 }
             });
         }

@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.view.View;
@@ -23,6 +24,9 @@ public class TweetDetailsActivity extends AppCompatActivity {
     TextView tvScreenName;
     TextView ttime;
     ImageView tImage;
+    ImageView likeButton;
+    ImageView replyButton;
+    ImageView retweetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,9 @@ public class TweetDetailsActivity extends AppCompatActivity {
         tvScreenName = findViewById(R.id.tvScreenName);
         ttime = findViewById(R.id.time);
         tImage = findViewById(R.id.tImage);
+        likeButton = findViewById(R.id.likeButton);
+        replyButton = findViewById(R.id.replyButton);
+        retweetButton = findViewById(R.id.retweetButton);
 
         tvBody.setText(tweet.body);
         tvScreenName.setText("@" + tweet.user.screenName);

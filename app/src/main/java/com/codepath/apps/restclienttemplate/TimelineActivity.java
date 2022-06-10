@@ -99,7 +99,7 @@ public class TimelineActivity extends AppCompatActivity {
         EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                client.getNextPageOfTweets(new JsonHttpResponseHandler() {
+                client.getMoreTweets(new JsonHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Headers headers, JSON json) {
                         JSONArray jsonArray = json.jsonArray;

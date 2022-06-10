@@ -22,6 +22,7 @@ public class Tweet {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+    public long id;
     public String body;
     public String createdAt;
     public User user;
@@ -40,6 +41,7 @@ public class Tweet {
 
         jsonObject.getJSONObject("entities");
 
+        tweet.id = jsonObject.getLong("id");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
 
