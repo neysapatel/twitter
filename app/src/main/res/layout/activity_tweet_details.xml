@@ -63,9 +63,23 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="16dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="username"
+        android:text="name"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
+        android:text="username"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
         tools:ignore="MissingConstraints" />
 
     <TextView
@@ -74,12 +88,12 @@
         android:layout_height="98dp"
         android:layout_below="@+id/tvScreenName"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="40dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:maxLines="5"
-        android:text="tweet body"
         android:autoLink="all"
         android:linksClickable="true"
+        android:maxLines="5"
+        android:text="tweet body"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         app:layout_constraintTop_toBottomOf="@+id/tvScreenName" />
 

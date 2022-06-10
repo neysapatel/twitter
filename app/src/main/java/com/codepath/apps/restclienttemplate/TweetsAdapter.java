@@ -72,6 +72,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         ImageView ivProfileImage;
         TextView tvBody;
         TextView tvScreenName;
+        TextView tvName;
         TextView ttime;
         ImageView tImage;
         ImageView likeButton;
@@ -84,6 +85,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
+            tvName = itemView.findViewById(R.id.tvName);
             ttime = itemView.findViewById(R.id.time);
             tImage = itemView.findViewById(R.id.tImage);
             likeButton = itemView.findViewById(R.id.likeButton);
@@ -93,7 +95,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText("@" + tweet.user.screenName);
+            tvScreenName.setText(tweet.user.screenName);
+            tvName.setText("@" + tweet.user.name);
 
             int rad = 75;
             Glide.with(context).load(tweet.user.publicImageUrl).apply(new RequestOptions().centerCrop().transform(new RoundedCorners(rad))).into(ivProfileImage);

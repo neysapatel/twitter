@@ -27,6 +27,19 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
+        android:text="name"
+        app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="26dp"
+        android:layout_toEndOf="@+id/ivProfileImage"
         android:text="username"
         app:layout_constraintStart_toEndOf="@+id/ivProfileImage"
         tools:layout_editor_absoluteY="0dp" />
@@ -37,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvScreenName"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="33dp"
         android:layout_marginBottom="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
         android:paddingBottom="20dp"

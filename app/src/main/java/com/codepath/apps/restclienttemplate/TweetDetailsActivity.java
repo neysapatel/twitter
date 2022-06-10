@@ -22,6 +22,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
     ImageView ivProfileImage;
     TextView tvBody;
     TextView tvScreenName;
+    TextView tvName;
     TextView ttime;
     ImageView tImage;
     ImageView likeButton;
@@ -38,6 +39,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvBody = findViewById(R.id.tvBody);
         tvScreenName = findViewById(R.id.tvScreenName);
+        tvScreenName = findViewById(R.id.tvName);
         ttime = findViewById(R.id.time);
         tImage = findViewById(R.id.tImage);
         likeButton = findViewById(R.id.likeButton);
@@ -46,6 +48,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
 
         tvBody.setText(tweet.body);
         tvScreenName.setText("@" + tweet.user.screenName);
+        tvName.setText("@" + tweet.user.name);
         ttime.setText(tweet.getRelativeTimeAgo(tweet.createdAt));
 
         int rad = 75;
