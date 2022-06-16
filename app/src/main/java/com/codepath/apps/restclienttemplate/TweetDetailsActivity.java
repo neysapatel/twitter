@@ -39,7 +39,7 @@ public class TweetDetailsActivity extends AppCompatActivity {
         ivProfileImage = findViewById(R.id.ivProfileImage);
         tvBody = findViewById(R.id.tvBody);
         tvScreenName = findViewById(R.id.tvScreenName);
-        tvScreenName = findViewById(R.id.tvName);
+        tvName = findViewById(R.id.tvName);
         ttime = findViewById(R.id.time);
         tImage = findViewById(R.id.tImage);
         likeButton = findViewById(R.id.likeButton);
